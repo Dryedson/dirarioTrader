@@ -1,0 +1,15 @@
+Coloque sua logo aqui com o nome exato:
+
+    logo.png
+
+Recomendações:
+- Formato PNG, quadrado (ex.: 1024x1024 px).
+- Fundo transparente ou combinando com a cor #0E1116.
+
+Depois de adicionar a logo, gere o ícone do app e a splash com:
+
+    flutter pub run flutter_native_splash:create
+    dart run flutter_launcher_icons
+
+Enquanto a logo não for adicionada, o app mostra um ícone placeholder
+na splash e continua funcionando normalmente.
