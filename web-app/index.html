@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário de Trade - Registro e Análise de Operações</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Tela de Login/Cadastro -->
+        <div id="authScreen" class="screen active">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h1>📈 Diário de Trade</h1>
+                    <p>Registre e analise suas operações</p>
+                </div>
+
+                <div class="auth-card">
+                    <div class="auth-tabs">
+                        <button class="tab-btn active" data-tab="login">Login</button>
+                        <button class="tab-btn" data-tab="signup">Cadastro</button>
+                    </div>
+
+                    <!-- Formulário de Login -->
+                    <form id="loginForm" class="auth-form active" data-form="login">
+                        <div class="form-group">
+                            <label for="loginEmail">Email</label>
+                            <input type="email" id="loginEmail" placeholder="seu@email.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="loginPassword">Senha</label>
+                            <div class="password-input">
+                                <input type="password" id="loginPassword" placeholder="••••••••" required>
+                                <button type="button" class="toggle-password" data-input="loginPassword">👁️</button>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+                    </form>
+
+                    <!-- Formulário de Cadastro -->
+                    <form id="signupForm" class="auth-form" data-form="signup">
+                        <div class="form-group">
+                            <label for="signupEmail">Email</label>
+                            <input type="email" id="signupEmail" placeholder="seu@email.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="signupPassword">Senha</label>
+                            <div class="password-input">
+                                <input type="password" id="signupPassword" placeholder="••••••••" required>
+                                <button type="button" class="toggle-password" data-input="signupPassword">👁️</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="signupConfirm">Confirmar Senha</label>
+                            <div class="password-input">
+                                <input type="password" id="signupConfirm" placeholder="••••••••" required>
+                                <button type="button" class="toggle-password" data-input="signupConfirm">👁️</button>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">Criar Conta</button>
+                    </form>
+
+                    <!-- Mensagens de Erro/Sucesso -->
+                    <div id="authMessage" class="message"></div>
+                </div>
+
+                <p class="auth-footer">Dados armazenados com segurança no Supabase</p>
+            </div>
+        </div>
+
+        <!-- Tela Principal (Home) -->
+        <div id="homeScreen" class="screen">
+            <nav class="navbar">
+                <div class="navbar-brand">
+                    <h1>📈 Diário de Trade</h1>
+                </div>
+                <div class="navbar-menu">
+                    <button id="reportsBtn" class="nav-btn">Relatórios</button>
+                    <button id="logoutBtn" class="nav-btn btn-logout">Sair</button>
+                </div>
+            </nav>
+
+            <div class="container">
+                <!-- Calendário -->
+                <div class="calendar-section">
+                    <h2>Calendário</h2>
+                    <div id="calendar" class="calendar"></div>
+                </div>
+
+                <!-- Registro do Dia -->
+                <div class="trade-section">
+                    <h2>Registro do Dia</h2>
+                    <div id="dayInfo" class="day-info">
+                        <p id="selectedDate">Selecione um dia</p>
+                    </div>
+
+                    <form id="tradeForm" class="trade-form">
+                        <div class="form-group">
+                            <label for="tradeAmount">Ganho/Perda (R$)</label>
+                            <input type="number" id="tradeAmount" placeholder="0.00" step="0.01" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tradeNotes">Notas (opcional)</label>
+                            <textarea id="tradeNotes" placeholder="Descreva sua operação..." rows="4"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">Salvar Registro</button>
+                    </form>
+
+                    <div id="tradeMessage" class="message"></div>
+
+                    <!-- Resultado do Dia -->
+                    <div id="dayResult" class="day-result hidden">
+                        <div class="result-card">
+                            <p class="result-label">Resultado do Dia</p>
+                            <p id="dayAmount" class="result-amount">R$ 0.00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela de Relatórios -->
+        <div id="reportsScreen" class="screen">
+            <nav class="navbar">
+                <div class="navbar-brand">
+                    <h1>📊 Relatórios</h1>
+                </div>
+                <div class="navbar-menu">
+                    <button id="backBtn" class="nav-btn">← Voltar</button>
+                </div>
+            </nav>
+
+            <div class="container">
+                <!-- Seletor de Período -->
+                <div class="period-selector">
+                    <button class="period-btn active" data-period="weekly">Semanal</button>
+                    <button class="period-btn" data-period="monthly">Mensal</button>
+                    <button class="period-btn" data-period="quarterly">Trimestral</button>
+                    <button class="period-btn" data-period="semiannual">Semestral</button>
+                    <button class="period-btn" data-period="annual">Anual</button>
+                </div>
+
+                <!-- Resumo do Período -->
+                <div class="report-summary">
+                    <div class="summary-card">
+                        <p class="summary-label">Total do Período</p>
+                        <p id="periodTotal" class="summary-amount">R$ 0.00</p>
+                    </div>
+                    <div class="summary-card">
+                        <p class="summary-label">Dias Positivos</p>
+                        <p id="positiveDays" class="summary-amount positive">0</p>
+                    </div>
+                    <div class="summary-card">
+                        <p class="summary-label">Dias Negativos</p>
+                        <p id="negativeDays" class="summary-amount negative">0</p>
+                    </div>
+                </div>
+
+                <!-- Gráfico -->
+                <div class="chart-container">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+
+                <!-- Tabela de Dados -->
+                <div class="data-table">
+                    <h3>Detalhes do Período</h3>
+                    <table id="reportsTable">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Resultado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="supabase.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
