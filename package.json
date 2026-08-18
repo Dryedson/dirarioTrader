@@ -1,0 +1,16 @@
+{
+  "name": "diario-trader",
+  "version": "1.0.0",
+  "description": "Aplicação web para registro e análise de operações de trading",
+  "scripts": {
+    "build": "flutter build web --release",
+    "start": "python3 -m http.server 8000 --directory build/web"
+  },
+  "keywords": [
+    "flutter",
+    "trading",
+    "diary"
+  ],
+  "author": "Dryedson",
+  "license": "MIT"
+}

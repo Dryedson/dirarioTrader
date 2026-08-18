@@ -1,8 +1,11 @@
 {
   "buildCommand": "flutter build web --release",
   "outputDirectory": "build/web",
-  "framework": "flutter",
-  "env": {
-    "FLUTTER_WEB_CANVASKIT_URL": "https://www.gstatic.com/flutter-canvaskit/"
-  }
+  "framework": "other",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
